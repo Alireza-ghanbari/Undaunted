@@ -1,9 +1,0 @@
-build*/
-vscode
-*.pro.user
-*.user
-*.o
-*.obj
-*.log
-*.cache
-.qmake.stach
