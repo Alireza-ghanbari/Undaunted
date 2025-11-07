@@ -1,5 +1,5 @@
-#include "loginscreen.h"
-#include "ui_loginscreen.h"
+#include "LoginScreen.h"
+#include "ui_LoginScreen.h"
 
 LoginScreen::LoginScreen(QWidget *parent)
     : QWidget(parent)
