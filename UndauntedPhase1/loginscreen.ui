@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="enabled">
       <bool>true</bool>
@@ -46,7 +46,7 @@
         <x>0</x>
         <y>0</y>
         <width>900</width>
-        <height>50</height>
+        <height>100</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -58,13 +58,13 @@
       <property name="minimumSize">
        <size>
         <width>900</width>
-        <height>50</height>
+        <height>100</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>900</width>
-        <height>50</height>
+        <height>100</height>
        </size>
       </property>
       <property name="font">
@@ -88,21 +88,21 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>50</y>
+        <y>100</y>
         <width>900</width>
-        <height>550</height>
+        <height>500</height>
        </rect>
       </property>
       <property name="minimumSize">
        <size>
         <width>900</width>
-        <height>550</height>
+        <height>500</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>900</width>
-        <height>550</height>
+        <height>500</height>
        </size>
       </property>
       <widget class="QLineEdit" name="lineEditP2">
@@ -133,7 +133,7 @@
        <property name="geometry">
         <rect>
          <x>375</x>
-         <y>290</y>
+         <y>350</y>
          <width>150</width>
          <height>50</height>
         </rect>
@@ -218,25 +218,25 @@
       <widget class="QLabel" name="errorLabel">
        <property name="geometry">
         <rect>
-         <x>330</x>
-         <y>410</y>
-         <width>261</width>
+         <x>220</x>
+         <y>240</y>
+         <width>471</width>
          <height>71</height>
         </rect>
        </property>
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <pointsize>12</pointsize>
         </font>
        </property>
        <property name="styleSheet">
         <string notr="true">color: rgb(213, 0, 0);</string>
        </property>
        <property name="text">
-        <string/>
+        <string>Erros here...</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
        </property>
       </widget>
      </widget>

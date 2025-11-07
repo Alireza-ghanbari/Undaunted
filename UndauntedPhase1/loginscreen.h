@@ -15,8 +15,22 @@ public:
     explicit LoginScreen(QWidget *parent = nullptr);
     ~LoginScreen();
 
+signals:
+    void continueClicked(const QString &player1, const QString player2);
+
+protected:
+    void showEvent(QShowEvent *event) override;
+
+private slots:
+    void onTextChange(const QString &text);
+    void onContinueClicked();
+
 private:
     Ui::LoginScreen *ui;
+
+    bool isValidName(const QString &name) const;
+    void updateContinueBtnState();
+    QString getValidationError(const QString &name) const;
 };
 
 #endif // LOGINSCREEN_H
