@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Board.h"
+#include "QGridLayout"
 
 namespace Ui {
 class BoardScreen;
@@ -22,6 +23,7 @@ private:
     Ui::BoardScreen *ui;
 
     Board m_board;
+    QGridLayout *grid;
 };
 
 #endif // BOARDSCREEN_H
