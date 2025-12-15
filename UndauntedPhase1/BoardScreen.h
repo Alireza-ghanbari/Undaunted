@@ -2,8 +2,9 @@
 #define BOARDSCREEN_H
 
 #include <QWidget>
-#include "Board.h"
-#include "QGridLayout"
+#include <QGridLayout>
+
+#include "BoardLinkedList.h"
 
 namespace Ui {
 class BoardScreen;
@@ -22,8 +23,8 @@ public:
 private:
     Ui::BoardScreen *ui;
 
-    Board m_board;
     QGridLayout *grid;
+    BoardLinkedList m_boardLinkedList;
 };
 
 #endif // BOARDSCREEN_H

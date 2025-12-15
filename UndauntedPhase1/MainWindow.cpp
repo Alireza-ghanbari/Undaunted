@@ -4,7 +4,7 @@
 #include "LoginScreen.h"
 #include "MapSelectionDialog.h"
 #include "BoardScreen.h"
-#include "Board.h"
+#include "BoardLinkedList.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)

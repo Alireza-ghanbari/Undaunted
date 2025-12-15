@@ -9,7 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Board.cpp \
+    BoardLinkedList.cpp \
     BoardScreen.cpp \
     Cell.cpp \
     LoginScreen.cpp \
@@ -19,9 +19,10 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    Board.h \
+    BoardLinkedList.h \
     BoardScreen.h \
     Cell.h \
+    CellNode.h \
     LoginScreen.h \
     MainWindow.h \
     MapSelectionDialog.h \
