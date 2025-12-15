@@ -100,6 +100,11 @@ void LoginScreen::onContinueClicked()
     const QString p1 = ui->lineEditP1->text().trimmed();
     const QString p2 = ui->lineEditP2->text().trimmed();
 
+    if (!isValidName(p1) || !isValidName(p2) || p1 == p2) {
+        updateContinueBtnState();
+        return;
+    }
+
     MapSelectionDialog dialog(this);
 
     if(dialog.exec() == QDialog::Accepted){
@@ -107,3 +112,10 @@ void LoginScreen::onContinueClicked()
         emit continueClicked(p1, p2, selectedMap);
     }
 }
+
+
+void LoginScreen::on_continueBtn_clicked()
+{
+
+}
+
