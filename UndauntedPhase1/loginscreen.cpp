@@ -113,9 +113,3 @@ void LoginScreen::onContinueClicked()
     }
 }
 
-
-void LoginScreen::on_continueBtn_clicked()
-{
-
-}
-

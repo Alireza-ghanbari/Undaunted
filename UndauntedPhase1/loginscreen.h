@@ -25,8 +25,6 @@ private slots:
     void onTextChange(const QString &text);
     void onContinueClicked();
 
-    void on_continueBtn_clicked();
-
 private:
     Ui::LoginScreen *ui;
 
