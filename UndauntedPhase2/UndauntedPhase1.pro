@@ -16,6 +16,7 @@ SOURCES += \
     MainWindow.cpp \
     MapSelectionDialog.cpp \
     SplashScreen.cpp \
+    Unit.cpp \
     main.cpp
 
 HEADERS += \
@@ -26,7 +27,8 @@ HEADERS += \
     LoginScreen.h \
     MainWindow.h \
     MapSelectionDialog.h \
-    SplashScreen.h
+    SplashScreen.h \
+    Unit.h
 
 FORMS += \
     BoardScreen.ui \
