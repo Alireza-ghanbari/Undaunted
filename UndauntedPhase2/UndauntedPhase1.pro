@@ -13,6 +13,7 @@ SOURCES += \
     BoardLinkedList.cpp \
     BoardScreen.cpp \
     Cell.cpp \
+    GameRules.cpp \
     LoginScreen.cpp \
     MainWindow.cpp \
     MapSelectionDialog.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     BoardScreen.h \
     Cell.h \
     CellNode.h \
+    GameRules.h \
     LoginScreen.h \
     MainWindow.h \
     MapSelectionDialog.h \
