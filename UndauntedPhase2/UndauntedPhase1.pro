@@ -13,6 +13,7 @@ SOURCES += \
     BoardLinkedList.cpp \
     BoardScreen.cpp \
     Cell.cpp \
+    GameController.cpp \
     GameRules.cpp \
     GameState.cpp \
     LoginScreen.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     BoardScreen.h \
     Cell.h \
     CellNode.h \
+    GameController.h \
     GameRules.h \
     GameState.h \
     LoginScreen.h \
