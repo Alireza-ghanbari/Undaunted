@@ -15,7 +15,6 @@ public:
     QString id() const;
     int type() const;
 
-    // ---- فاز ۲ ----
     void setUnit(Unit *unit);
     Unit* unit() const;
 
