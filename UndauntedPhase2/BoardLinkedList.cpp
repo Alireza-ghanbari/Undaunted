@@ -58,8 +58,40 @@ void BoardLinkedList::clear()
         CellNode* temp = current;
         current = current->next;
 
-        delete temp->cell;   // مهم
+        delete temp->cell;
         delete temp;
     }
     head = nullptr;
 }
+
+void BoardLinkedList::buildNeighbors()
+{
+    CellNode* a = head;
+
+    while (a) {
+        CellNode* b = head;
+
+        while (b) {
+            if (a == b) { b = b->next; continue; }
+
+            QString id1 = a->cell->id();
+            QString id2 = b->cell->id();
+
+            QString row1 = id1.left(1);
+            int col1 = id1.mid(1).toInt();
+
+            QString row2 = id2.left(1);
+            int col2 = id2.mid(1).toInt();
+
+            if (row1 == row2 && qAbs(col1 - col2) == 1)
+                a->cell->addNeighbor(b->cell);
+
+            if (qAbs(row1[0].unicode() - row2[0].unicode()) == 1 && col1 == col2)
+                a->cell->addNeighbor(b->cell);
+
+            b = b->next;
+        }
+        a = a->next;
+    }
+}
+
