@@ -1,35 +1,42 @@
 #include "GameRules.h"
 #include "Unit.h"
 #include "Cell.h"
-#include "BFS.h"
+
+int GameRules::attackPower(Unit *attacker, Unit *target)
+{
+    if (!attacker || !target) return 0;
+
+    int base = 0;
+    switch (attacker->type()) {
+    case UnitType::Scout:     base = 2; break;
+    case UnitType::Sniper:    base = 4; break;
+    case UnitType::Sergeant:  base = 3; break;
+    }
+
+    return base;
+}
+
+bool GameRules::checkWin(Player *player)
+{
+    if (!player) return false;
+
+    for (Unit *u : player->units()) {
+        if (u->hp() > 0) return false;
+    }
+
+    return true;
+}
 
 bool GameRules::canMove(Unit *unit, Cell *target)
 {
-    if (!unit || !target)
-        return false;
-
-    if (target->unit() != nullptr)
-        return false;
-
-    auto path = BFS::path(unit->cell(), target);
-
-    int maxDistance = 0;
-    switch (unit->type()) {
-    case UnitType::Scout:     maxDistance = 4; break;
-    case UnitType::Sniper:   maxDistance = 2; break;
-    case UnitType::Sergeant: maxDistance = 3; break;
-    }
-
-    return path.size() - 1 <= maxDistance;
+    if (!unit || !target) return false;
+    if (target->unit() != nullptr) return false;
+    return true;
 }
 
 bool GameRules::canAttack(Unit *attacker, Unit *defender)
 {
-    if (!attacker || !defender)
-        return false;
-
-    auto path = BFS::path(attacker->cell(), defender->cell());
-
-    int range = (attacker->type() == UnitType::Sniper) ? 4 : 1;
-    return path.size() - 1 <= range;
+    if (!attacker || !defender) return false;
+    if (attacker->owner() == defender->owner()) return false;
+    return true;
 }
