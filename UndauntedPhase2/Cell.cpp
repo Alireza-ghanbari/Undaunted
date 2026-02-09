@@ -1,32 +1,28 @@
 #include "Cell.h"
-#include "Unit.h"
 
 Cell::Cell() {}
+Cell::Cell(const QString &id, int type) : m_id(id), m_type(type) {}
 
-Cell::Cell(const QString &id, int type)
-    : m_id(id), m_type(type)
-{}
-
-QString Cell::id() const { return m_id; }
-int Cell::type() const { return m_type; }
-
-void Cell::setUnit(Unit *unit)
-{
-    m_unit = unit;
+void Cell::addNeighbor(Cell *c) {
+    m_neighbors.append(c);
 }
 
-Unit* Cell::unit() const
-{
+QList<Cell*> Cell::neighbors() const {
+    return m_neighbors;
+}
+
+void Cell::setUnit(Unit *u) {
+    m_unit = u;
+}
+
+Unit* Cell::unit() const {
     return m_unit;
 }
 
-void Cell::addNeighbor(Cell *cell)
-{
-    if (cell && !m_neighbors.contains(cell))
-        m_neighbors.append(cell);
+void Cell::setState(CellState s) {
+    m_state = s;
 }
 
-const QList<Cell*>& Cell::neighbors() const
-{
-    return m_neighbors;
+CellState Cell::state() const {
+    return m_state;
 }
