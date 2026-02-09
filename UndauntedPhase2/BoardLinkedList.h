@@ -1,20 +1,24 @@
 #ifndef BOARDLINKEDLIST_H
 #define BOARDLINKEDLIST_H
 
-#include "CellNode.h"
-#include <QString>
+#include "Cell.h"
 
-class BoardLinkedList
-{
+struct CellNode {
+    Cell* cell;
+    CellNode* next;
+
+    CellNode(Cell* c) : cell(c), next(nullptr) {}
+};
+
+class BoardLinkedList {
 public:
     BoardLinkedList();
     ~BoardLinkedList();
 
     bool loadMap(const QString &mapName);
-    CellNode* getHead() const { return head; }
     void clear();
 
-private:
+    void buildNeighbors();
     CellNode* head;
 };
 

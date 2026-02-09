@@ -35,7 +35,8 @@ bool BoardLinkedList::loadMap(const QString &mapName)
             QStringList data = p.trimmed().split(":");
             if (data.size() != 2) continue;
 
-            CellNode* node = new CellNode(Cell(data[0], data[1].toInt()));
+            Cell* cell = new Cell(data[0], data[1].toInt());
+            CellNode* node = new CellNode(cell);
 
             if (!head) {
                 head = node;
@@ -56,6 +57,8 @@ void BoardLinkedList::clear()
     while (current) {
         CellNode* temp = current;
         current = current->next;
+
+        delete temp->cell;   // مهم
         delete temp;
     }
     head = nullptr;
