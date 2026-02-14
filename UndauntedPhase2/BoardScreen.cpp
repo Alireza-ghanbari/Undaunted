@@ -50,33 +50,48 @@ void BoardScreen::loadDynamicMap(const QString &mapFilePath, const QString &layo
         }
 
         int visualCol = (letter == "B") ? (col * 2 + 1) : (col * 2);
-        QString displayText = node->cell->id();
+
+        int shieldValue = node->cell->type();
+        QString displayText = QString("%1 (️%2)").arg(node->cell->id()).arg(shieldValue);
 
         if (node->cell->unit()) {
             Unit* u = node->cell->unit();
-            QString uName = (u->type() == UnitType::Scout) ? "SCT" :
-                                (u->type() == UnitType::Sniper) ? "SNP" : "SRG";
-
+            QString uName = (u->type() == UnitType::Scout) ? "Scout" :
+                                (u->type() == UnitType::Sniper) ? "Sniper" : "Sergeant";
             displayText += QString("\n%1 (%2)").arg(uName, u->owner());
         }
 
         QLabel* lbl = new QLabel(displayText, this);
         lbl->setAlignment(Qt::AlignCenter);
-        lbl->setMinimumSize(100, 60);
+        lbl->setMinimumSize(100, 70);
 
         QString bgColor;
-        if (node->cell->state() == ControlledP1) bgColor = "#2E5894";
-        else if (node->cell->state() == ControlledP2) bgColor = "#A52A2A";
-        else {
+        CellState state = node->cell->state();
+
+        if (state == ControlledP1) {
+            bgColor = "#2E5894";
+        } else if (state == ControlledP2) {
+            bgColor = "#A52A2A";
+        } else {
             int shield = node->cell->type();
-            bgColor = (shield == 0) ? "#ad5603" : (shield == 1) ? "#1e693b" : "#171c19";
+            bgColor = (shield == 0) ? "#96714e" : (shield == 1) ? "#5c826b" : "#292929";
         }
 
-        QString border = "1px solid black";
-        if (node->cell->state() == ObservedP1) border = "4px solid #00FFFF";
-        else if (node->cell->state() == ObservedP2) border = "4px solid #FFA500";
+        QString borderStyle = "0px solid black";
 
-        lbl->setStyleSheet(QString("background:%1; border:%2; color:white; font-weight:bold;").arg(bgColor, border));
+        if (state == ObservedP1) {
+            borderStyle = "5px solid #0044ab";
+        } else if (state == ObservedP2) {
+            borderStyle = "5px solid #0d8500";
+        }
+
+        lbl->setStyleSheet(QString("background-color: %1; "
+                                   "border: %2; "
+                                   "color: white; "
+                                   "font-weight: bold; "
+                                   "border-radius: 2px;")
+                               .arg(bgColor, borderStyle));
+
         grid->addWidget(lbl, row, visualCol, 1, 2);
 
         col++;

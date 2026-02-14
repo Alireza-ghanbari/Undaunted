@@ -79,16 +79,26 @@ void BoardLinkedList::parseStatusLine(const QString &line) {
     QStringList details = parts[1].split(",");
     if (details.size() < 2) return;
 
-    QString player = details[0];
-    QString type = details[1].toLower();
+    QString player = details[0].trimmed();
+    QString type = details[1].trimmed().toLower();
 
-    if (type != "mark" && type != "control") {
+    if (type == "control") {
+        if (player == "A") target->setState(ControlledP1);
+        else if (player == "B") target->setState(ControlledP2);
+    }
+    else if (type == "mark") {
+        if (player == "A") target->setState(ObservedP1);
+        else if (player == "B") target->setState(ObservedP2);
+    }
+    else {
         UnitType uType;
         if (type.contains("scout")) uType = UnitType::Scout;
         else if (type.contains("sniper")) uType = UnitType::Sniper;
         else uType = UnitType::Sergeant;
 
-        target->setUnit(new Unit(uType, player));
+        Unit* newUnit = new Unit(uType, player);
+        target->setUnit(newUnit);
+        newUnit->setCell(target);
     }
 }
 
