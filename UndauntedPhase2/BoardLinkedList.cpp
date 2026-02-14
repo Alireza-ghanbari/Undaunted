@@ -1,26 +1,38 @@
 #include "BoardLinkedList.h"
+#include "Unit.h"
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 
 BoardLinkedList::BoardLinkedList() : head(nullptr) {}
 
-BoardLinkedList::~BoardLinkedList()
-{
+BoardLinkedList::~BoardLinkedList() {
     clear();
 }
 
-bool BoardLinkedList::loadMap(const QString &mapName)
-{
-    clear();
-
-    QString filePath = ":/maps/" + mapName + ".txt";
-    QFile file(filePath);
-
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Cannot load map:" << filePath;
-        return false;
+void BoardLinkedList::clear() {
+    CellNode* current = head;
+    while (current) {
+        CellNode* temp = current;
+        current = current->next;
+        delete temp->cell;
+        delete temp;
     }
+    head = nullptr;
+}
+
+Cell* BoardLinkedList::findCellById(const QString &id) const {
+    CellNode* curr = head;
+    while (curr) {
+        if (curr->cell->id() == id) return curr->cell;
+        curr = curr->next;
+    }
+    return nullptr;
+}
+
+bool BoardLinkedList::loadMap(const QString &mapFilePath) {
+    clear();
+    QFile file(mapFilePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
     QTextStream in(&file);
     CellNode* last = nullptr;
@@ -30,68 +42,75 @@ bool BoardLinkedList::loadMap(const QString &mapName)
         if (line.isEmpty()) continue;
 
         QStringList parts = line.split("|", Qt::SkipEmptyParts);
-
         for (const QString &p : parts) {
             QStringList data = p.trimmed().split(":");
             if (data.size() != 2) continue;
-
             Cell* cell = new Cell(data[0], data[1].toInt());
             CellNode* node = new CellNode(cell);
-
-            if (!head) {
-                head = node;
-                last = node;
-            } else {
-                last->next = node;
-                last = node;
-            }
+            if (!head) head = node;
+            else last->next = node;
+            last = node;
         }
     }
-
+    buildNeighbors();
     return true;
 }
 
-void BoardLinkedList::clear()
-{
-    CellNode* current = head;
-    while (current) {
-        CellNode* temp = current;
-        current = current->next;
+bool BoardLinkedList::applyLayout(const QString &layoutFilePath) {
+    QFile file(layoutFilePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
 
-        delete temp->cell;
-        delete temp;
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty() || line.startsWith("[")) continue;
+        parseStatusLine(line);
     }
-    head = nullptr;
+    return true;
 }
 
-void BoardLinkedList::buildNeighbors()
-{
-    CellNode* a = head;
+void BoardLinkedList::parseStatusLine(const QString &line) {
+    QStringList parts = line.split(":");
+    if (parts.size() < 2) return;
 
+    Cell* target = findCellById(parts[0]);
+    if (!target) return;
+
+    QStringList details = parts[1].split(",");
+    if (details.size() < 2) return;
+
+    QString player = details[0];
+    QString type = details[1].toLower();
+
+    if (type != "mark" && type != "control") {
+        UnitType uType;
+        if (type.contains("scout")) uType = UnitType::Scout;
+        else if (type.contains("sniper")) uType = UnitType::Sniper;
+        else uType = UnitType::Sergeant;
+
+        target->setUnit(new Unit(uType, player));
+    }
+}
+
+void BoardLinkedList::buildNeighbors() {
+    CellNode* a = head;
     while (a) {
         CellNode* b = head;
-
         while (b) {
             if (a == b) { b = b->next; continue; }
-
             QString id1 = a->cell->id();
             QString id2 = b->cell->id();
+            QChar r1 = id1[0];
+            int c1 = id1.mid(1).toInt();
+            QChar r2 = id2[0];
+            int c2 = id2.mid(1).toInt();
 
-            QString row1 = id1.left(1);
-            int col1 = id1.mid(1).toInt();
-
-            QString row2 = id2.left(1);
-            int col2 = id2.mid(1).toInt();
-
-            if (row1 == row2 && qAbs(col1 - col2) == 1)
+            if ((r1 == r2 && qAbs(c1 - c2) == 1) ||
+                (qAbs(r1.unicode() - r2.unicode()) == 1 && c1 == c2)) {
                 a->cell->addNeighbor(b->cell);
-
-            if (qAbs(row1[0].unicode() - row2[0].unicode()) == 1 && col1 == col2)
-                a->cell->addNeighbor(b->cell);
-
+            }
             b = b->next;
         }
         a = a->next;
     }
 }
-

@@ -2,9 +2,7 @@
 #include "ui_MainWindow.h"
 #include "SplashScreen.h"
 #include "LoginScreen.h"
-#include "MapSelectionDialog.h"
 #include "BoardScreen.h"
-#include "BoardLinkedList.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,22 +14,18 @@ MainWindow::MainWindow(QWidget *parent)
     splash = new SplashScreen(this);
     login = new LoginScreen();
     boardScreen = new BoardScreen();
-    // board = new Board();
 
     setCentralWidget(splash);
-
 
     connect(splash, &SplashScreen::goToLogin, this, [this](){
         setCentralWidget(login);
     });
 
+    connect(login, &LoginScreen::continueClicked, this, [this](const QString &p1, const QString &p2, const QString &mapName){
+        QString mapPath = ":/maps/" + mapName + ".txt";
+        QString layoutPath = ":/layouts/layout" + mapName + ".txt";;
 
-    connect(login, &LoginScreen::continueClicked, this, [this](const QString &p1, const QString &p2, const QString &map){
-        qDebug() << "Player1:" << p1;
-        qDebug() << "Player2:" << p2;
-        qDebug() << "Selected Map:" << map;
-
-        boardScreen->loadMap(map);
+        boardScreen->loadDynamicMap(mapPath, layoutPath);
         setCentralWidget(boardScreen);
     });
 }

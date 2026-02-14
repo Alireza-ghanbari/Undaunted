@@ -1,6 +1,6 @@
 #include "Cell.h"
 
-Cell::Cell() {}
+Cell::Cell() : m_type(0), m_unit(nullptr), m_state(Neutral) {}
 Cell::Cell(const QString &id, int type) : m_id(id), m_type(type) {}
 
 void Cell::addNeighbor(Cell *c) {

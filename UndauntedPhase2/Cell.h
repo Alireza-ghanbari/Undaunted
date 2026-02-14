@@ -35,7 +35,6 @@ public:
 private:
     QString m_id;
     int m_type;
-
     QList<Cell*> m_neighbors;
     Unit* m_unit = nullptr;
     CellState m_state = Neutral;

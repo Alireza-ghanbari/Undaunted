@@ -4,32 +4,27 @@
 #include <QString>
 
 class Cell;
-class Player;
 
-enum class UnitType {
-    Scout,
-    Sniper,
-    Sergeant
-};
+enum class UnitType { Scout, Sniper, Sergeant };
 
-class Unit
-{
+class Unit {
 public:
-    Unit(UnitType type, Player *owner);
+    Unit(UnitType type, QString ownerName)
+        : m_type(type), m_ownerName(ownerName), m_hp(1), m_currentCell(nullptr) {}
 
-    UnitType type() const;
-    int hp() const;
+    QString owner() const { return m_ownerName; }
+    UnitType type() const { return m_type; }
+    int hp() const { return m_hp; }
+    void setHp(int value) { m_hp = value; }
 
-    void setCell(Cell *cell);
-    Cell* cell() const;
-
-    Player* owner() const;
+    Cell* cell() const { return m_currentCell; }
+    void setCell(Cell* c) { m_currentCell = c; }
 
 private:
     UnitType m_type;
+    QString m_ownerName;
     int m_hp;
-    Cell *m_cell = nullptr;
-    Player *m_owner = nullptr;
+    Cell* m_currentCell;
 };
 
 #endif

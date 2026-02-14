@@ -7,4 +7,9 @@
         <file>map2.txt</file>
         <file>map3.txt</file>
     </qresource>
+    <qresource prefix="/layouts">
+        <file>layoutmap2.txt</file>
+        <file>layoutmap3.txt</file>
+        <file>layoutmap1.txt</file>
+    </qresource>
 </RCC>
